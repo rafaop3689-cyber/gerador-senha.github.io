@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Senhas Fortes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  background: #0f172a;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  background: #020617;
+  padding: 30px;
+  border-radius: 14px;
+  width: 320px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>🔐 Gerador de Senhas Fortes</h1>
+  <input id="senha" readonly placeholder="Clique no botão">
+  <button onclick="gerarSenha()">Gerar Senha</button>
+</div>
+
+<script>
+function gerarSenha() {
+  const caracteres =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
+  let senha = "";
+
+  for (let i = 0; i < 12; i++) {
+    const random = Math.floor(Math.random() * caracteres.length);
+    senha += caracteres[random];
+  }
+
+  document.getElementById("senha").value = senha;
+}
+</script>
+
+</body>
+</html>
