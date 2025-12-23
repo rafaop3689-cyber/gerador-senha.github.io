@@ -19,28 +19,34 @@ body {
 .box {
   background: #020617;
   padding: 30px;
-  border-radius: 14px;
-  width: 320px;
+  border-radius: 16px;
+  width: 340px;
   text-align: center;
 }
 
 h1 {
   font-size: 20px;
+  margin-bottom: 10px;
 }
 
-input {
+input[type="text"] {
   width: 100%;
   padding: 12px;
-  margin: 15px 0;
   border-radius: 8px;
   border: none;
   text-align: center;
   font-size: 16px;
+  margin: 10px 0;
+}
+
+input[type="range"] {
+  width: 100%;
 }
 
 button {
   width: 100%;
   padding: 14px;
+  margin-top: 10px;
   background: #22c55e;
   border: none;
   border-radius: 10px;
@@ -51,6 +57,19 @@ button {
 button:hover {
   background: #16a34a;
 }
+
+.copy {
+  background: #3b82f6;
+}
+
+.copy:hover {
+  background: #2563eb;
+}
+
+.security {
+  margin-top: 10px;
+  font-weight: bold;
+}
 </style>
 </head>
 
@@ -58,24 +77,63 @@ button:hover {
 
 <div class="box">
   <h1>🔐 Gerador de Senhas Fortes</h1>
-  <input id="senha" readonly placeholder="Clique no botão">
+
+  <input id="senha" readonly placeholder="Clique em gerar">
+
+  <label>Tamanho: <span id="valor">12</span></label>
+  <input type="range" min="6" max="24" value="12" id="tamanho">
+
   <button onclick="gerarSenha()">Gerar Senha</button>
+  <button class="copy" onclick="copiar()">Copiar Senha</button>
+
+  <div class="security" id="seguranca"></div>
 </div>
 
 <script>
+const range = document.getElementById("tamanho");
+const valor = document.getElementById("valor");
+
+range.oninput = () => {
+  valor.textContent = range.value;
+};
+
 function gerarSenha() {
   const caracteres =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
   let senha = "";
+  const tamanho = range.value;
 
-  for (let i = 0; i < 12; i++) {
-    const random = Math.floor(Math.random() * caracteres.length);
-    senha += caracteres[random];
+  for (let i = 0; i < tamanho; i++) {
+    senha += caracteres[Math.floor(Math.random() * caracteres.length)];
   }
 
   document.getElementById("senha").value = senha;
+  verificarSeguranca(tamanho);
+}
+
+function copiar() {
+  const campo = document.getElementById("senha");
+  campo.select();
+  document.execCommand("copy");
+  alert("Senha copiada!");
+}
+
+function verificarSeguranca(tam) {
+  const sec = document.getElementById("seguranca");
+
+  if (tam < 10) {
+    sec.textContent = "🔴 Segurança fraca";
+    sec.style.color = "red";
+  } else if (tam < 16) {
+    sec.textContent = "🟡 Segurança média";
+    sec.style.color = "yellow";
+  } else {
+    sec.textContent = "🟢 Segurança forte";
+    sec.style.color = "lime";
+  }
 }
 </script>
 
 </body>
 </html>
+
